@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>8-Puzzle Solver using IDDLS</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"></head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark sticky-top"><div class="container">
+<a class="navbar-brand" href="#home">8-Puzzle IDDLS</a>
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nv"><span class="navbar-toggler-icon"></span></button>
+<div id="nv" class="collapse navbar-collapse"><div class="navbar-nav ms-auto">
+<a class="nav-link" href="#home">Home</a><a class="nav-link" href="#input">Puzzle input</a><a class="nav-link" href="#solver">Solver</a><a class="nav-link" href="#algo">Algorithm</a></div></div></div></nav>
+<main class="container">
+<section id="home"><div class="card p-4">
+<h1 class="h2">Interactive 8-Puzzle Solver using Iterative Deepening Depth-Limited Search</h1>
+<p class="text-secondary mb-2">Artificial Intelligence | Individual Digital Assignment | Algorithm 4: IDDLS</p>
+<p class="mb-3"><b>Maha Vignesh Shree</b> &middot; Reg. No. <b>24BCE2736</b></p>
+<p>The 8-Puzzle has eight numbered tiles and one blank on a 3 &times; 3 grid. The goal is to turn an initial configuration into a goal configuration by sliding tiles adjacent to the blank into it. This app solves it with IDDLS only, running entirely in your browser, and shows every iteration, depth limit and expansion.</p>
+<div><a href="#input" class="btn btn-primary">Set up a puzzle</a></div></div></section>
+
+<section id="input"><div class="card p-4"><h2 class="h4 mb-3">Puzzle input</h2>
+<div id="msg" class="alert alert-danger py-2" hidden></div>
+<div class="row g-4">
+<div class="col-auto"><h3 class="h6">Initial state</h3><div id="gridInit" class="grid-in"></div><button id="applyInit" class="btn btn-sm btn-outline-info mt-2">Apply initial state</button></div>
+<div class="col-auto"><h3 class="h6">Goal state</h3><div id="gridGoal" class="grid-in"></div><button id="applyGoal" class="btn btn-sm btn-outline-info mt-2">Apply goal state</button></div>
+<div class="col-md"><p class="text-secondary small">Use 0 or leave a cell empty for the blank. Each tile 1-8 appears once. Unsolvable pairs are rejected before searching.</p>
+<div class="d-flex flex-wrap gap-2 mb-3"><button id="swap" class="btn btn-sm btn-secondary">Swap initial and goal</button><button id="defaults" class="btn btn-sm btn-secondary">Reset puzzle</button></div>
+<div class="input-group input-group-sm" style="max-width:420px"><select id="diff" class="form-select"><option value="6">Easy (6 random moves)</option><option value="12" selected>Medium (12)</option><option value="16">Hard (16)</option></select><button id="random" class="btn btn-primary">Generate random solvable puzzle</button></div>
+<p class="text-secondary small mt-2">Difficulty sets how many random legal moves scramble the goal. It is not a guaranteed optimal solution length.</p></div></div></div></section>
+
+<section id="solver"><div class="row g-3">
+<div class="col-lg-5"><div class="card p-3">
+<div class="row text-center mb-3"><div class="col-6"><div class="small text-secondary mb-1">Initial</div><div id="bInit" class="board sm"></div></div><div class="col-6"><div class="small text-secondary mb-1">Goal</div><div id="bGoal" class="board sm"></div></div></div>
+<div class="small text-secondary text-center mb-1">Current state (highlighted tile = the one that just moved)</div><div id="bCur" class="board mb-3"></div>
+<div class="text-center small mb-3" id="sStep">-</div>
+<div class="d-flex flex-wrap gap-2 justify-content-center mb-2">
+<button id="bRun" class="btn btn-primary btn-sm">Run</button><button id="bPause" class="btn btn-warning btn-sm">Pause</button><button id="bResume" class="btn btn-success btn-sm">Resume</button>
+<button id="bPrev" class="btn btn-outline-light btn-sm">Previous step</button><button id="bNext" class="btn btn-outline-light btn-sm">Next step</button><button id="bReset" class="btn btn-danger btn-sm">Reset</button></div>
+<div class="row g-2 align-items-center"><div class="col-6"><label class="small" for="speed">Speed</label><select id="speed" class="form-select form-select-sm"><option value="800">Slow</option><option value="300" selected>Normal</option><option value="80">Fast</option><option value="0">Instant</option></select></div>
+<div class="col-6"><label class="small" for="maxDepth">Max depth limit</label><input id="maxDepth" type="number" min="0" max="40" value="20" class="form-control form-control-sm"></div></div>
+</div></div>
+<div class="col-lg-7"><div class="card p-3 mb-3"><h2 class="h5">Search process</h2>
+<p class="text-secondary small">IDDLS has no open list. It keeps only the current recursive path, shown below, and restarts from the initial state for each depth limit.</p>
+<div class="row g-2"><div class="col-4 col-md-2"><div class="stat"><span>Iteration</span><b id="sIter">-</b></div></div><div class="col-4 col-md-2"><div class="stat"><span>Depth limit</span><b id="sLimit">-</b></div></div><div class="col-4 col-md-2"><div class="stat"><span>Depth</span><b id="sDepth">-</b></div></div><div class="col-4 col-md-2"><div class="stat"><span>Generated</span><b id="sGen">0</b></div></div><div class="col-4 col-md-2"><div class="stat"><span>Expanded</span><b id="sExp">0</b></div></div><div class="col-4 col-md-2"><div class="stat"><span>Time</span><b id="sTime">0 ms</b></div></div></div>
+<div class="mono mt-2"><b>Result:</b> <span id="sRes">-</span><br><b>Expanding:</b> <span id="sNode">-</span><br><b>Parent:</b> <span id="sParent">-</span><br><b>Successors:</b> <span id="sSucc">-</span><br><b>Active recursive path:</b> <span id="sPath">-</span></div></div>
+<div class="card p-3 mb-3"><h2 class="h5">Iteration summary</h2><div class="table-responsive"><table class="table table-sm"><thead><tr><th>Iteration</th><th>Depth limit</th><th>Nodes generated</th><th>Nodes expanded</th><th>Result</th><th>Time</th></tr></thead><tbody id="iterBody"></tbody></table></div></div>
+<div id="summaryCard" class="card p-3 mb-3" hidden><h2 class="h5">Solution summary</h2><div id="summary" class="row g-0"></div><ol id="solList" class="mono mt-2 mb-0"></ol></div>
+</div></div></section>
+
+<section id="algo"><div class="card p-4"><h2 class="h4">About IDDLS</h2>
+<p>IDDLS repeatedly runs depth-limited depth-first search, raising the limit by one after each unsuccessful iteration, until the goal is found or the configured maximum limit is reached.</p>
+<div class="row"><div class="col-md-6"><h3 class="h6">Working principle</h3><ol><li>Begin with depth limit 0.</li><li>Search within the current limit from the initial state.</li><li>Return the path if the goal is found.</li><li>Otherwise increase the limit by one.</li><li>Repeat until found or the maximum limit is reached.</li></ol>
+<h3 class="h6">Complexity</h3><p>Time O(b<sup>d</sup>), space O(bd), where b is the branching factor and d the depth of the shallowest solution (standard worst-case bounds).</p></div>
+<div class="col-md-6"><h3 class="h6">Advantages</h3><ul><li>Complete for finite branching factors given a large enough limit.</li><li>Optimal for equal-cost moves.</li><li>Memory use is far lower than BFS.</li></ul><h3 class="h6">Limitations</h3><ul><li>Repeats work across iterations.</li><li>Slow for deep solutions.</li><li>Needs path cycle checks.</li><li>A maximum depth can hide deeper solutions.</li></ul></div></div>
+<p class="mb-0 text-secondary small"><b>Versus BFS and DFS (context only):</b> BFS is optimal but stores a whole frontier; DFS is memory-light but neither optimal nor complete without limits. IDDLS combines BFS's optimality with DFS's memory use. Neither is implemented here.</p></div></section>
+</main>
+<footer class="text-center text-secondary small py-3">Maha Vignesh Shree &middot; 24BCE2736 &middot; Artificial Intelligence</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/puzzle.js"></script><script src="js/statistics.js"></script><script src="js/iddls.js"></script><script src="js/visualization.js"></script><script src="js/main.js"></script>
+</body></html>
