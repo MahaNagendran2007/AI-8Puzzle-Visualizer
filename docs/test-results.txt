@@ -1,0 +1,50 @@
+Test output captured 2026-10-13 in the build environment (Node v22.22.2, Playwright Chromium; Bootstrap CDN blocked during e2e).
+
+== node tests/unit.test.js ==
+PASS solved: start equals goal -> 0 moves
+PASS one move away -> depth 1
+PASS default puzzle: 5 moves, valid path, ends at goal
+PASS solution length equals BFS-optimal length (test-only BFS)
+PASS depth limit starts at 0 and rises by exactly 1, each iteration restarts at initial state
+PASS no expansion exceeds its depth limit; paths never repeat a state
+PASS no successor repeats a state on the current path
+PASS depth limit too small -> not found, no optimality claim data
+PASS unsolvable pairs rejected by parity check
+PASS solvable pairs accepted (both blank positions)
+PASS parity check agrees with exhaustive reachability on 60 random pairs
+PASS validation rejects duplicates, missing, out-of-range, NaN, wrong length
+PASS random generation: 3 difficulties x 300 puzzles solvable w.r.t. default AND a custom goal, and solved by IDDLS within scramble length
+PASS statistics match independent reference implementation
+PASS per-iteration stats sum to totals; running counters never decrease
+PASS final iteration result is Goal Found; earlier ones are Cutoff
+PASS max depth 0 and unequal states -> not found after 1 iteration
+   total ms: 1871
+PASS performance: 16-move scrambles, 20 puzzles
+
+18 passed, 0 failed
+
+== node tests/e2e.test.js ==
+PASS page loads: no JS errors, all local css/js paths resolve, name + reg number shown
+PASS default puzzle shown on all three boards at load
+PASS case: initial equals goal -> 0 moves
+PASS case: one move away -> depth 1
+PASS case: multi-move default -> 5 moves, ends on goal board
+PASS case: unsolvable rejected before search
+PASS case: invalid inputs rejected with clear messages
+PASS case: depth limit too small -> accurate not-found message, no optimality claim
+PASS case: invalid max depth rejected
+PASS random generation via button: solvable for default and custom goals, all difficulties
+PASS animation: Next/Previous walk the real solution; board matches path; moved tile highlighted correctly
+PASS stats consistency: summary, table and live counters agree with event log
+PASS controls: Run/Pause/Resume/Next/Prev/Reset/Speed with correct enabled states
+PASS speed change mid-run takes effect; double Run click does not start two searches
+PASS Reset mid-run stops everything and restores configured puzzle; Resume stays disabled; rerun works
+PASS swap and reset-puzzle buttons
+   solved in 5610 ms; worst UI stall 37 ms
+PASS responsiveness: UI thread stays responsive during an Instant 16-move search
+   events held after 16s: 47400 | history trimmed: true
+PASS safety: deep search stays pausable/resettable and memory-bounded
+PASS no JS errors during the whole session
+PASS mobile viewport: no horizontal overflow
+
+20 passed, 0 failed
