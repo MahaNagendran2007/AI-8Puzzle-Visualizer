@@ -8,7 +8,7 @@ Interactive 8-Puzzle solver that uses **Iterative Deepening Depth-Limited Search
 | Registration number | 24BCE2736 |
 | Course | Artificial Intelligence (Individual Digital Assignment) |
 | Assigned algorithm | Iterative Deepening Depth-Limited Search (IDDLS), Algorithm No. 4 |
-| Repository URL | _add after you create the repository_ |
+| Repository URL | https://github.com/MahaNagendran2007/AI-8Puzzle-Visualizer |
 | GitHub Pages URL | https://mahanagendran2007.github.io/AI-8Puzzle-Visualizer/ |
 
 ## Features
