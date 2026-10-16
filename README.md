@@ -9,7 +9,7 @@ Interactive 8-Puzzle solver that uses **Iterative Deepening Depth-Limited Search
 | Course | Artificial Intelligence (Individual Digital Assignment) |
 | Assigned algorithm | Iterative Deepening Depth-Limited Search (IDDLS), Algorithm No. 4 |
 | Repository URL | _add after you create the repository_ |
-| GitHub Pages URL | _add after you enable Pages_ |
+| GitHub Pages URL | https://mahanagendran2007.github.io/AI-8Puzzle-Visualizer/ |
 
 ## Features
 - Manual input of initial and goal states with validation (tiles 0-8 exactly once, 0 = blank) and an inversion-parity solvability check before any search.
