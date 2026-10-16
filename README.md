@@ -76,13 +76,7 @@ The unit tests cover solved / one-move / multi-move / unsolvable / invalid / dep
 All paths are relative, so the site works from a project sub-path.
 
 ## Demo video
-Link to the short demonstration video: _add after you upload it (YouTube unlisted, Google Drive, etc.)_
-
-## Screenshots
-Add your own screenshots to `images/` and link them here:
-- `images/home.png` (placeholder)
-- `images/solver.png` (placeholder)
-- `images/summary.png` (placeholder)
+https://drive.google.com/file/d/1aYtx3mW9NmB9Y0-Bu6BJMXKSRq0Wf5Tw/view?usp=sharing
 
 ## Known limitations
 - Bootstrap is loaded from a CDN, so styling needs internet; logic works offline.
